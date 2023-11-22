@@ -10,12 +10,15 @@
 </head>
 
 <body>
-    <div class="container">
+    <div class="wrapper">
         <div class="controls">
+            <input class="input" type="number" id="count_cols" placeholder="Количество столбцов">
+            <input class="input" type="number" id="count_rows" placeholder="Количество строк">
             <button class="btn" id="next">next</button>
-
+            <button class="btn" id="random">Расставить случайно</button>
+            <button class="btn" id="start">Старт</button>
         </div>
-        <canvas id="canvas"></canvas>
+        <canvas class="canvas" id="canvas"></canvas>
     </div>
 
     <script type="module" src="./js/index.js"></script>

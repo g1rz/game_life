@@ -1,5 +1,5 @@
 export class Game {
-    constructor(selectorId, cols, rows, liveCells) {
+    constructor(selectorId, cols = 10, rows = 10, liveCells = {}) {
         this.cols = cols;
         this.rows = rows;
         this.prevLiveCells = {};
@@ -27,7 +27,8 @@ export class Game {
                 }
             }
         }
-        this.liveCells = cells;
+        this.prevLiveCells = {};
+        this.liveCells = {...cells};
     }
 
     checkLiveCell(x, y) {
@@ -100,11 +101,8 @@ export class Game {
                 }
             }
         }
-        console.log('prev', this.liveCells);
-        console.log('next', nextGeneration);
         this.prevLiveCells = {...this.liveCells};
         this.liveCells = {...nextGeneration};
-        console.log('current', this.liveCells);
     }
 
     drawStage() {
@@ -114,7 +112,7 @@ export class Game {
             for (let x = 0; x < this.cols; x++) {
                 const isPrevLive = this.prevLiveCells[`${x}:${y}`] ? true : false;
                 const isCurrentLive = this.checkLiveCell(x, y);
-                if (isPrevLive !== isCurrentLive) {
+                // if (isPrevLive !== isCurrentLive) {
                     if (isCurrentLive) {
                         this.ctx.fillStyle = '#000';
                         
@@ -122,7 +120,7 @@ export class Game {
                         this.ctx.fillStyle = '#fff';
                     }
                     this.ctx.fillRect(x * this.sizeCell + 1, y * this.sizeCell + 1, this.sizeCell - 2, this.sizeCell - 2);
-                }
+                // }
                 // if (this.checkLiveCell(x, y)) {
                 //     this.ctx.fillRect(x * this.sizeCell, y * this.sizeCell, this.sizeCell, this.sizeCell);
                 // } else {
@@ -133,6 +131,10 @@ export class Game {
     }
 
     drawGrid() {
+        const width = this.sizeCell * this.cols;
+        const height = this.sizeCell * this.rows;
+        this.nodeCanvas.width = width;
+        this.nodeCanvas.height = height;
         for (let x = 0; x <= this.cols; x++) {
             this.ctx.beginPath();
             this.ctx.moveTo(x * this.sizeCell, 0);
@@ -149,11 +151,15 @@ export class Game {
     }
 
     init() {
-        const width = this.sizeCell * this.cols;
-        const height = this.sizeCell * this.rows;
-        this.nodeCanvas.width = width;
-        this.nodeCanvas.height = height;
+        
         this.drawGrid();
     }
 
+    set setCols(cols) {
+        this.cols = cols;
+    }
+
+    set setRows(rows) {
+        this.rows = rows;
+    }
 }
